@@ -1,5 +1,9 @@
 package locator
 
+import (
+	"net"
+)
+
 type (
 	Location struct {
 		LocationID   string `json:"location_id"`
@@ -10,8 +14,8 @@ type (
 	}
 
 	Network struct {
-		LocationID string   `json:"location_id"`
-		Mask       string   `json:"mask"`
+		LocationID string    `json:"location_id"`
+		Mask       string    `json:"mask"`
 		Location   *Location `json:"location"`
 	}
 )
@@ -24,4 +28,18 @@ func (l Location) ToMapInterface() map[string]interface{} {
 	m["subdivision_2"] = l.Subdivision2
 	m["location_id"] = l.LocationID
 	return m
+}
+
+func NewNetwork(cidr, locationID string) (*Network, error) {
+	ip, _, err := net.ParseCIDR(cidr)
+	if err != nil {
+		return nil, err
+	}
+
+	n := Network{
+		LocationID: locationID,
+		Mask:       ip.DefaultMask().String(),
+	}
+
+	return &n, nil
 }
