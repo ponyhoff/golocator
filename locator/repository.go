@@ -50,7 +50,7 @@ func (m MemoryRepository) FetchNetwork(mask string) (*Network, error) {
 	return &n, nil
 }
 
-func (m *MemoryRepository) PersistNetwork(n Network) bool {
+func (m MemoryRepository) PersistNetwork(n Network) bool {
 
 	m.cacheMutex.Lock()
 	defer m.cacheMutex.Unlock()

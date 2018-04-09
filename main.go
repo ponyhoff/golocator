@@ -30,16 +30,13 @@ func handleError(msg string, err error) {
 func run() error {
 
 	var (
-		l = locator.NewLocator()
+		loader = locator.CSVLoader{locationsDataFile, networksDataFile}
+		l      = locator.NewLocator()
 	)
 
 	handleError(
 		"loading data from csv...",
-		locator.Load(
-			locationsDataFile,
-			networksDataFile,
-			&l,
-		),
+		loader.Load(l),
 	)
 
 	ls := LocatorService{}

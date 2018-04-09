@@ -9,11 +9,15 @@ type IPLocator interface {
 }
 
 type L struct {
-	repo MemoryRepository
+	repo LocatorRepository
 }
 
 func NewLocator() IPLocator {
 	return L{MemoryRepository{}}
+}
+
+func (l L) Repo() *LocatorRepository {
+	return &l.repo
 }
 
 func (l L) GetLocationByAddress(addr string) (*Location, error) {
@@ -39,4 +43,3 @@ func (l L) GetLocationByAddress(addr string) (*Location, error) {
 
 	return loc, nil
 }
-
